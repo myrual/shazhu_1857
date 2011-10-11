@@ -1,3 +1,4 @@
+from __future__ import division
 def resetfilePointertoHead(FilePointer):
     FilePointer.seek(0)
     return
@@ -38,6 +39,38 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
+def Percentage(starttime, endtime, filepointer):
+    start_record = findMatchedTimeRecord(filepointer,starttime)
+    end_record   = findMatchedTimeRecord(filepointer, endtime)
+    if start_record <> []:
+        if end_record <> []:
+            end_price = getEndPrice(end_record)
+            print "got end time price" + str(end_price)
+            start_price = getEndPrice(start_record)
+            print "got start time price" + str(start_price)
+            absvalue = abs(start_price - end_price)
+            finalrate = absvalue/start_price
+            finalrate = (finalrate * 100)//1
+            if start_price < end_price:
+                return finalrate
+            else:
+                return finalrate * -1
+    return []
+
+def GroupPercentage(starttime, endtime, filegroup):
+    """ filegroup is: ["sh600000.day", "sh999999.day"]
+    """
+    result = []
+    for i in filegroup:
+        filepointer = open(i, 'rb')
+        per = Percentage(starttime, endtime, filepointer)
+        result.append([i, per])
+    return result
+
+
+
+def GetSortedTable(inputtable):
+    return sorted(inputtable, key = lambda per:per[1])
 recordfile = open('sh600000.day', 'rb')
 resetfilePointertoHead(recordfile)
 firstline = GetOneDayContent(recordfile)
@@ -53,4 +86,16 @@ found = findMatchedTimeRecord(recordfile, 20110824)
 if found == []:
     print "no found any record"
 else:
-    print getHighestPrice(found)
+    print getEndPrice(found)
+
+
+print "percentage of 20110824-20110930 is: "
+print Percentage(20110824, 20110930, recordfile)
+startime = int(raw_input("start time: 20110830:"))
+endtime = int(raw_input("end time:20110830:"))
+print Percentage(startime, endtime, recordfile)
+groupresult = GroupPercentage(startime, endtime, ["sh600000.day", "sh999999.day"])
+sortedgroup = GetSortedTable(groupresult)
+for i in sortedgroup:
+    print i[0]
+    print i[1]
