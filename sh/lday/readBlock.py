@@ -10,17 +10,17 @@ def getListofStockFromBlockFile(filename):
     return codelist
 
 def FindShenzhenMarketDayKFolder():
-    return 'sz'
+    return "sz\\lday\\"
 def FindShanghaiMarketDayKFolder():
-    return ''
+    return 'sh\\lday\\'
 
 def GetStockDayKFileNameFromCodeInBlock(code):
     filename = ''
     if(code[0] == '0'):
-        filename = "sz" + code[1:] + '.day'
+        filename = FindShenzhenMarketDayKFolder() + 'sz' + code[1:] + '.day'
     else:
         #shanghai market
-        filename = 'sh' + code[1:] + '.day'
+        filename = FindShanghaiMarketDayKFolder() + 'sh' + code[1:] + '.day'
     return filename
 def GetDayKFileNameGroupFromBlockFile(BlockFileName):
     f = open(BlockFileName, 'r')
