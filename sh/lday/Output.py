@@ -14,8 +14,10 @@ def InsertRow(rowcontentlist):
     for i in rowcontentlist:
         if type(i) == type(0.01) or type(i) == type(1):
             singleRow = singleRow + HTML_Table_Col_Start + str(i) + HTML_Table_Col_END
-        else:
+        if type(i) == type("aa") or type(i) == type('a'):
             singleRow = singleRow + HTML_Table_Col_Start + i + HTML_Table_Col_END
+        if type(i) == type([]) and i == []:
+            singleRow = singleRow + HTML_Table_Col_Start + "N/A" + HTML_Table_Col_END
     return HTML_Table_ROW_Start + singleRow + HTML_Table_ROW_END
 def InputTabletoHTMLTable(inputtable, title):
     table = ""
