@@ -2,7 +2,12 @@ from readDayRecord import *
 from readBlock import *
 startime = 20110830
 endtime = 20110930
-BlockFileGroup = ['MTSY.blk', 'DL.blk']
+BlockFileNameGroup_WithoutFileType = ['BX', 'DL', 'DLSB', 'DQ', 'DZXX', 'FDC', 'FCFZ', 'GCJZ', 'GSGQ', 'GSGQ', 'GT', 'HGHX'
+        , 'HJG', 'HTJG', 'JC', 'JSJ', 'JTGJ', 'JTSS', 'JX', 'JYCM', 'LYJD', 'MHG', 'MTSY', 'NJSP', 'QS', 'QTXY', 'SYLS',
+        'TJG', 'TLJJ', 'TX', 'WM', 'WNB', 'XNY', 'YDYB', 'YSJS', 'YSJS', 'YSWL', 'YXL']
+BlockFileGroup = []
+for i in BlockFileNameGroup_WithoutFileType:
+    BlockFileGroup.append(i+'.blk')
 BlockCompareTable = GetBlockSortTable(startime, endtime, BlockFileGroup)
 sortedTable = GetSortedTable(BlockCompareTable)
 

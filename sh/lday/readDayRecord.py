@@ -1,5 +1,6 @@
 from __future__ import division
 from Output import *
+import os
 def resetfilePointertoHead(FilePointer):
     FilePointer.seek(0)
     return
@@ -61,9 +62,12 @@ def GroupPercentage(starttime, endtime, filegroup):
     """
     result = []
     for i in filegroup:
-        filepointer = open(i, 'rb')
-        per = Percentage(starttime, endtime, filepointer)
-        result.append([i, per])
+        if os.path.isfile(i):
+            filepointer = open(i, 'rb')
+            per = Percentage(starttime, endtime, filepointer)
+            result.append([i, per])
+        else:
+            result.append([i, []])
     return result
 
 
