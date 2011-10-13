@@ -46,9 +46,7 @@ def Percentage(starttime, endtime, filepointer):
     if start_record <> []:
         if end_record <> []:
             end_price = getEndPrice(end_record)
-            print "got end time price" + str(end_price)
             start_price = getEndPrice(start_record)
-            print "got start time price" + str(start_price)
             absvalue = abs(start_price - end_price)
             finalrate = absvalue/start_price
             finalrate = (finalrate * 100)//1

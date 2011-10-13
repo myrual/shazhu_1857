@@ -1,3 +1,5 @@
+from __future__ import division
+from readDayRecord import *
 def getListofStockFromBlockFile(filename):
     """input is a filename, it is like DL.blk  
         output is an list, content is an stock code list
@@ -32,3 +34,27 @@ def GetDayKFileNameGroupFromBlockFile(BlockFileName):
         print k
         DayKFileNameGroup.append(k)
     return DayKFileNameGroup
+def GetBlockSortTable(startime, endtime, BlockFileNameGroup):
+    result = []
+    for i in BlockFileNameGroup:
+        result.append([i, GetBlockIndexAverage(startime, endtime, i)])
+    return result
+def GetBlockIndexAverage(startime, endtime, BlockFileName):
+    print BlockFileName
+    groupresult = GroupPercentage(startime, endtime, GetDayKFileNameGroupFromBlockFile('..\\T0002\\blocknew\\' + BlockFileName))
+    print groupresult
+    counter  = len(groupresult)
+    if counter == 0:
+        return 'N/A'
+    sum = 0
+    for i in groupresult:
+        print i[0]
+        print i[1]
+        if i[1] == []:
+            counter = counter - 1
+        else:
+            sum = sum + i[1]
+    print "sum is " + str(sum)
+    print "counter is " + str(counter)
+    average = (sum/counter)//1
+    return average
