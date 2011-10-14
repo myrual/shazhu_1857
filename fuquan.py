@@ -49,6 +49,13 @@ def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
     else:
         result = result * SingleFuqian_Forward(FQPeriodTable, filepointer)
     return result
+def GetFuquanedPrice(starttime, endtime, Kdayfilepointer, WholeFuquanInfo):
+    Price_Before_Fuquan = GetYesterDayEndPrice(Kdayfilepointer, starttime)
+    print "price before " + str(starttime) + " is: " + str(Price_Before_Fuquan)
+
+    matchFuquanTable = GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanInfo)
+    index = periodFuquan_factor_Forward(matchFuquanTable, Kdayfilepointer)
+    return Price_Before_Fuquan * index
 #print periodFuquan_factor_Forward(STDTFQinfo)
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, STDTFQinfo)
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, [])
@@ -56,3 +63,4 @@ print GetMatchedFuquanFromWholeFuquan(20050930, 20110930, [[20110617, 0.3, 0, 0.
 KdayFileName = 'sh\\lday\\sh600834.day'
 filepointer = open(KdayFileName, 'rb')
 print periodFuquan_factor_Forward(GetMatchedFuquanFromWholeFuquan(20090930, 20110930, STDTFQinfo), filepointer)
+print GetFuquanedPrice(20090930, 20110930, filepointer, STDTFQinfo)

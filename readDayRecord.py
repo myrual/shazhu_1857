@@ -32,19 +32,22 @@ def getEndPrice(recordline):
 def findYesterDayRecord(filepointer, inputtime):
     resetfilePointertoHead(filepointer)
     oneday = GetOneDayContent(filepointer)
+    Yesterday = oneday
     i = 1
     while len(oneday) <> 0:
         if getTime(oneday) == inputtime:
             print oneday
             #yesterday record is the price before fuquan happen
             oneday = GetOneDayContent(filepointer)
-            return oneday
+            return Yesterday
+        Yesterday = oneday
         oneday = GetOneDayContent(filepointer)
         i = i + 1
     print "no found match record" + "with " + str(i) + "attem"
     return []
 def GetYesterDayEndPrice(filepointer, inputtime):
     record = findYesterDayRecord(filepointer, inputtime)
+    print record
     if record == []:
         return 0
     else:
