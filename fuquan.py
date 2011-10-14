@@ -1,5 +1,6 @@
 # coding=utf-8
 from readDayRecord import *
+import csv
 """
 
 """    
@@ -57,10 +58,20 @@ def GetFuquanedPrice(starttime, endtime, Kdayfilepointer, WholeFuquanInfo):
     index = periodFuquan_factor_Forward(matchFuquanTable, Kdayfilepointer)
     return Price_Before_Fuquan * index
 #print periodFuquan_factor_Forward(STDTFQinfo)
+def GetFuquanInfoFromFile(filenpointer):
+    FQReader = csv.reader(filenpointer)
+
+    result = []
+    for row in FQReader:
+        print row
+        result.append(map(float, row))
+    return result
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, STDTFQinfo)
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, [])
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110930, [[20110617, 0.3, 0, 0.6, 0, 0]])
 KdayFileName = 'sh\\lday\\sh600834.day'
 filepointer = open(KdayFileName, 'rb')
 print periodFuquan_factor_Forward(GetMatchedFuquanFromWholeFuquan(20090930, 20110930, STDTFQinfo), filepointer)
-print GetFuquanedPrice(20090930, 20110930, filepointer, STDTFQinfo)
+FullFQInfo = GetFuquanInfoFromFile(open('834.fq.csv'))
+print GetFuquanedPrice(20090930, 20110930, filepointer, FullFQInfo)
+
