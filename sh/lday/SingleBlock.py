@@ -1,9 +1,9 @@
 from readDayRecord import *
 from readBlock import *
 
-startime = 20110830
-endtime = 20110930
-BlockFileName = 'MTSY.blk'
+startime = int(raw_input("start:"))
+endtime =  int(raw_input("end  :"))
+BlockFileName = raw_input("block file name:")
 
 outfileName_HTML = str(startime) + '_'+ str(endtime) + '_' + BlockFileName + '.html'
 outfileName_TEXT = str(startime) + '_'+ str(endtime) + '_' + BlockFileName + '.txt'
