@@ -1,13 +1,8 @@
 from readDayRecord import *
 from Output import *
-recordfile = open('sh600000.day', 'rb')
+recordfile = open('sh600834.day', 'rb')
 resetfilePointertoHead(recordfile)
 firstline = GetOneDayContent(recordfile)
-print getTime(firstline)
-print getStartPrice(firstline)
-print getHighestPrice(firstline)
-print getLowestPrice(firstline)
-print getEndPrice(firstline)
 firstline = GetOneDayContent(recordfile)
 print getTime(firstline)
 print "pufayinhang 20110824"

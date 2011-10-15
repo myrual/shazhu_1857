@@ -1,6 +1,8 @@
 from __future__ import division
 from Output import *
 import os
+from fuquan import *
+from GenerateFuQuanInfo import *
 def resetfilePointertoHead(FilePointer):
     FilePointer.seek(0)
     return
@@ -45,6 +47,7 @@ def findYesterDayRecord(filepointer, inputtime):
         i = i + 1
     print "no found match record" + "with " + str(i) + "attem"
     return []
+
 def GetYesterDayEndPrice(filepointer, inputtime):
     record = findYesterDayRecord(filepointer, inputtime)
     print record
@@ -64,13 +67,15 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
-def Percentage(starttime, endtime, filepointer):
+def Percentage(starttime, endtime, filepointer, fuquanfilepointer = []):
     start_record = findMatchedTimeRecord(filepointer,starttime)
     end_record   = findMatchedTimeRecord(filepointer, endtime)
     if start_record <> []:
         if end_record <> []:
             end_price = getEndPrice(end_record)
             start_price = getEndPrice(start_record)
+            if(fuquanfilepointer <> []):
+                start_price = getFuquanedPrice_fromFile(starttime, endtime, filepointer, fuquanfilepointer)
             absvalue = abs(start_price - end_price)
             finalrate = absvalue/start_price
             finalrate = (finalrate * 100)//1
@@ -86,8 +91,16 @@ def GroupPercentage(starttime, endtime, filegroup):
     result = []
     for i in filegroup:
         if os.path.isfile(i):
-            filepointer = open(i, 'rb')
-            per = Percentage(starttime, endtime, filepointer)
+            KDayfilepointer = open(i, 'rb')
+            stockid = i[-10:-4]
+            fuquanfilename = 'fq\\' + stockid + '.csv'
+            if os.path.isfile(fuquanfilename):
+                fuquanpointer = open(fuquanfilename, 'r')
+            else:
+                print "Creating Fuquan file:" + fuquanfilename
+                CreateFquanByStockID(stockid)
+                fuquanpointer = open(fuquanfilename, 'r')
+            per = Percentage(starttime, endtime, KDayfilepointer, fuquanpointer)
             result.append([i, per])
         else:
             result.append([i, []])
