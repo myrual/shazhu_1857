@@ -18,8 +18,6 @@ def GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanData):
     part1 = []
     part2 = []
     for i in WholeFuquanData:
-        print i
-        print "input end time:" + str(endtime)
         if i[0] < endtime:
             part1.append(i)
 
@@ -31,7 +29,6 @@ def GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanData):
 def SingleFuqian_Forward(FQinfo, filepointer):
     """FQinfo is : [time(trade time), free(how many), gift(How many), bonus(how much), cheaper_price(how much), cheaper_count(how many)]
     """
-    print FQinfo
     earlierprice = readDayRecord.GetYesterDayEndPrice(filepointer, FQinfo[0])
     bonus = FQinfo[3]
     free = FQinfo[1]
@@ -43,7 +40,7 @@ def SingleFuqian_Forward(FQinfo, filepointer):
     fq_3 = ((fq_2) + cheaper_price*cheaper_count)/(1+cheaper_count)
     return fq_3/earlierprice 
 def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
-    print FQPeriodTable
+    result  = 1.0
     if FQPeriodTable == []:
         return 1
     if type(FQPeriodTable[0]) == type([]):
@@ -54,7 +51,6 @@ def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
     return result
 def GetFuquanedPrice(starttime, endtime, Kdayfilepointer, WholeFuquanInfo):
     Price_Before_Fuquan = readDayRecord.GetYesterDayEndPrice(Kdayfilepointer, starttime)
-    print "price before " + str(starttime) + " is: " + str(Price_Before_Fuquan)
 
     matchFuquanTable = GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanInfo)
     index = periodFuquan_factor_Forward(matchFuquanTable, Kdayfilepointer)
@@ -68,7 +64,6 @@ def GetFuquanInfoFromFile(filenpointer):
 
     result = []
     for row in FQReader:
-        print row
         result.append(map(float, row))
     return result
 """

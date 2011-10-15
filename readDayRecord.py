@@ -38,7 +38,6 @@ def findYesterDayRecord(filepointer, inputtime):
     i = 1
     while len(oneday) <> 0:
         if getTime(oneday) == inputtime:
-            print oneday
             #yesterday record is the price before fuquan happen
             oneday = GetOneDayContent(filepointer)
             return Yesterday
@@ -50,7 +49,6 @@ def findYesterDayRecord(filepointer, inputtime):
 
 def GetYesterDayEndPrice(filepointer, inputtime):
     record = findYesterDayRecord(filepointer, inputtime)
-    print record
     if record == []:
         return 0
     else:

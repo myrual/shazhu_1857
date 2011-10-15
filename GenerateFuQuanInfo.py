@@ -12,7 +12,7 @@ def extractFQRecordFromWeb(linestr):
     tmp = extractOneline(linestr, 'td')
     tmp = extractOneline(tmp[1], 'td')
     if(tmp[0] == [] or tmp[0] == '\0'):#not found effective value
-        return [tradingtime, free, gift, bonus, 0, 0]
+        return []
     free = float(tmp[0])/10.0
     tmp = extractOneline(tmp[1], 'td')
     gift = float(tmp[0])/10.0
@@ -23,6 +23,7 @@ def extractFQRecordFromWeb(linestr):
     tmp = extractOneline(tmp[1], 'td')
     if tmp[0] == '--':
         tradingtime = 0
+        return []
     else:
         tradingtime = int(tmp[0][:4] + tmp[0][5:7] + tmp[0][8:10])
     return [tradingtime, free, gift, bonus, 0, 0]
@@ -46,7 +47,8 @@ def CreateFquanByStockID(stockid):
     removedThread = fenghong[end_thead + len('tbody'):]
     firstline = extractOneline(removedThread, 'tr')
     singlerow =  extractFQRecordFromWeb(firstline[0])
-    FQWriter.writerow(map(str, singlerow))
+    if singlerow <> []:
+        FQWriter.writerow(map(str, singlerow))
     recordNumber = removedThread.count('tr')/2
     recordNumber = recordNumber - 1
     while recordNumber > 0:
@@ -57,7 +59,8 @@ def CreateFquanByStockID(stockid):
         """
         firstline = extractOneline(firstline[1], 'tr')
         singlerow =  extractFQRecordFromWeb(firstline[0])
-        FQWriter.writerow(map(str, singlerow))
+        if singlerow <> []:
+            FQWriter.writerow(map(str, singlerow))
         recordNumber = recordNumber - 1
     stdtcsv.close()
     return
@@ -88,4 +91,3 @@ end_position_peigu= StartFromPeigu.find('table')
 print end_position_peigu
 print StartFromPeigu[0:end_position_peigu]
 """
-CreateFquanByStockID('000562')
