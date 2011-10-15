@@ -2,6 +2,7 @@
 import urllib
 import re
 import csv
+import readBlock
 def extractFQRecordFromWeb(linestr):
     result = []
     free = 0
@@ -65,6 +66,16 @@ def CreateFquanByStockID(stockid):
     stdtcsv.close()
     return
 
+def CreateFuquan_By_userinput_blockName():
+    user_input_blockname = raw_input("please input block file name: QS.blk:")
+    CreateFuquanFileByBlockFile(user_input_blockname)
+    return
+def CreateFuquanFileByBlockFile(blockName):
+    stockidgroup = readBlock.GetStockIDGroupKFromBlockFile(blockName)
+    result = [] 
+    for i in stockidgroup:
+         CreateFquanByStockID(i)
+    return
 """
 stockid = raw_input("input stock id:")
 urlitem = urllib.urlopen("http://money.finance.sina.com.cn/corp/go.php/vISSUE_ShareBonus/stockid/" + stockid + ".phtml")
@@ -91,3 +102,10 @@ end_position_peigu= StartFromPeigu.find('table')
 print end_position_peigu
 print StartFromPeigu[0:end_position_peigu]
 """
+"""
+import sys
+print sys.argv # returns: ['param.py']
+
+"""
+if __name__ == '__main__':
+    CreateFuquan_By_userinput_blockName()

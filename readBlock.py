@@ -24,6 +24,17 @@ def GetStockDayKFileNameFromCodeInBlock(code):
         #shanghai market
         filename = FindShanghaiMarketDayKFolder() + 'sh' + code[1:] + '.day'
     return filename
+def GetStockIDFromCodeInBlock(code):
+    stockid = code[1:]
+    return stockid
+def GetStockIDGroupKFromBlockFile(BlockFileName):
+    f = open(BlockFileName, 'r')
+    codelist = getListofStockFromBlockFile(BlockFileName)
+    StockIDGroup = []
+    for i in StockIDGroup:
+        k = GetStockIDFromCodeInBlock(i)
+        StockIDGroup.append(k)
+    return StockIDGroup
 def GetDayKFileNameGroupFromBlockFile(BlockFileName):
     f = open(BlockFileName, 'r')
     codelist = getListofStockFromBlockFile(BlockFileName)

@@ -95,9 +95,9 @@ def GroupPercentage(starttime, endtime, filegroup):
             if os.path.isfile(fuquanfilename):
                 fuquanpointer = open(fuquanfilename, 'r')
             else:
-                print "Creating Fuquan file:" + fuquanfilename
-                CreateFquanByStockID(stockid)
-                fuquanpointer = open(fuquanfilename, 'r')
+                #print "Creating Fuquan file:" + fuquanfilename
+                #CreateFquanByStockID(stockid)
+                fuquanpointer = []
             per = Percentage(starttime, endtime, KDayfilepointer, fuquanpointer)
             result.append([i, per])
         else:
