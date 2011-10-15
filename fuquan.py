@@ -69,9 +69,12 @@ def GetFuquanInfoFromFile(filenpointer):
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, STDTFQinfo)
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, [])
 print GetMatchedFuquanFromWholeFuquan(20050930, 20110930, [[20110617, 0.3, 0, 0.6, 0, 0]])
-KdayFileName = 'sh\\lday\\sh600834.day'
+KdayFileName = 'sh\\lday\\sh600489.day'
 filepointer = open(KdayFileName, 'rb')
 print periodFuquan_factor_Forward(GetMatchedFuquanFromWholeFuquan(20090930, 20110930, STDTFQinfo), filepointer)
-FullFQInfo = GetFuquanInfoFromFile(open('834.fq.csv'))
-print GetFuquanedPrice(20090930, 20110930, filepointer, FullFQInfo)
+fqfilename = raw_input("input fuquan file name:")
+FullFQInfo = GetFuquanInfoFromFile(open(fqfilename + '.csv'))
+print "Full fuquan info is :"
+print FullFQInfo
+print GetFuquanedPrice(20110524, 20110930, filepointer, FullFQInfo)
 
