@@ -28,7 +28,7 @@ def getHighestPrice(recordline):
 def getLowestPrice(recordline):
     return getElementFromrecordLine(recordline, 12, 16)
 def getEndPrice(recordline):
-    return getElementFromrecordLine(recordline, 16, 20)
+    return getElementFromrecordLine(recordline, 16, 20)/100
 
 
 def findYesterDayRecord(filepointer, inputtime):
@@ -65,13 +65,32 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
+def Percentage_byStockID(starttime, endtime, stockid):
+    """stock id is an string like '600834'"""
+
+    if stockid[0] == '6':
+        stockid_in_block = '1'+stockid
+    if stockid[0] == '0':
+        stockid_in_block = '0'+stockid
+    filename = readBlock.GetStockDayKFileNameFromCodeInBlock(stockid_in_block)
+    print filename
+    filepointer = open(filename, 'rb')
+    fqfilename = 'fq\\' + stockid+'.csv'
+    if os.path.isfile(fqfilename):
+        fuquanfilepointer = open(fqfilename,'r')
+    else:
+        print "not found fuquan info: " + fqfilename
+        fuquanfilepointer = []
+    return Percentage(starttime, endtime, filepointer, fuquanfilepointer)
 def Percentage(starttime, endtime, filepointer, fuquanfilepointer = []):
     start_record = findMatchedTimeRecord(filepointer,starttime)
     end_record   = findMatchedTimeRecord(filepointer, endtime)
     if start_record <> []:
         if end_record <> []:
             end_price = getEndPrice(end_record)
+            print end_price
             start_price = getEndPrice(start_record)
+            print start_price
             if(fuquanfilepointer <> []):
                 start_price = getFuquanedPrice_fromFile(starttime, endtime, filepointer, fuquanfilepointer)
             absvalue = abs(start_price - end_price)

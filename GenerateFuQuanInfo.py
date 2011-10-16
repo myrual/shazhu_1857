@@ -69,7 +69,7 @@ def CreateFquanByStockID(stockid):
 
 def CreateFuquan_By_userinput_blockName():
     user_input_blockname = raw_input("please input block file name: QS.blk:")
-    CreateFuquanFileByBlockFile(user_input_blockname)
+    CreateFuquanFileByBlockFile('..\\T0002\\blocknew\\' + user_input_blockname)
     return
 def CreateFuquanFileByBlockFile(blockName):
     stockidgroup = readBlock.GetStockIDGroupKFromBlockFile(blockName)
