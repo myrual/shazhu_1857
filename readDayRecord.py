@@ -123,4 +123,4 @@ def GroupPercentage(starttime, endtime, filegroup):
 
 
 def GetSortedTable(inputtable):
-    return sorted(inputtable, key = lambda per:per[1])
+    return sorted(inputtable, key = lambda per:-1*per[1], reverse=False)
