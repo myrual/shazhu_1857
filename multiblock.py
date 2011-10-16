@@ -17,7 +17,6 @@ BlockCompareTable = readBlock.GetBlockSortTable(startime, endtime, BlockFileGrou
 StockIDCompareTable = []
 for i in StockIDGroup:
     tmp = [i, Percentage_byStockID(startime, endtime, i)]
-    print tmp
     StockIDCompareTable.append(tmp)
 sortedTable = GetSortedTable(BlockCompareTable + StockIDCompareTable)
 

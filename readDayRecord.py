@@ -73,7 +73,6 @@ def Percentage_byStockID(starttime, endtime, stockid):
     if stockid[0] == '0':
         stockid_in_block = '0'+stockid
     filename = readBlock.GetStockDayKFileNameFromCodeInBlock(stockid_in_block)
-    print filename
     filepointer = open(filename, 'rb')
     fqfilename = 'fq\\' + stockid+'.csv'
     if os.path.isfile(fqfilename):
@@ -88,9 +87,7 @@ def Percentage(starttime, endtime, filepointer, fuquanfilepointer = []):
     if start_record <> []:
         if end_record <> []:
             end_price = getEndPrice(end_record)
-            print end_price
             start_price = getEndPrice(start_record)
-            print start_price
             if(fuquanfilepointer <> []):
                 start_price = getFuquanedPrice_fromFile(starttime, endtime, filepointer, fuquanfilepointer)
             absvalue = abs(start_price - end_price)

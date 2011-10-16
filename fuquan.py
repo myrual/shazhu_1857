@@ -35,12 +35,8 @@ def SingleFuqian_Forward(FQinfo, filepointer):
     gift = FQinfo[2]
     cheaper_price = FQinfo[4]
     cheaper_count = FQinfo[5]
-    print "earlieprice is :" + str(earlierprice)
-    print "bonus is: " + str(bonus)
     fq_1 = (earlierprice - bonus)
-    print "fq_1" + str(fq_1)
     fq_2 = (fq_1)/(1 + free + gift) 
-    print "fq_2" + str(fq_2)
     fq_3 = ((fq_2) + cheaper_price*cheaper_count)/(1+cheaper_count)
     return fq_3/earlierprice 
 def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
@@ -56,11 +52,9 @@ def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
 def GetFuquanedPrice(starttime, endtime, Kdayfilepointer, WholeFuquanInfo):
     matchFuquanTable = GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanInfo)
     index = periodFuquan_factor_Forward(matchFuquanTable, Kdayfilepointer)
-    print "index is :" + str(index)
     return readDayRecord.getEndPrice(readDayRecord.findMatchedTimeRecord(Kdayfilepointer, starttime))* index
 def getFuquanedPrice_fromFile(starttime, endtime, Kdayfilepointer, fuquanfilepointer):
     FullFQInfo = GetFuquanInfoFromFile(fuquanfilepointer)
-    print FullFQInfo
     return GetFuquanedPrice(starttime, endtime, Kdayfilepointer, FullFQInfo)
 #print periodFuquan_factor_Forward(STDTFQinfo)
 def GetFuquanInfoFromFile(filenpointer):
