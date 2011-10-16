@@ -49,7 +49,7 @@ def GetBlockSortTable(startime, endtime, BlockFileNameGroup):
         result.append([i, GetBlockIndexAverage(startime, endtime, i)])
     return result
 def GetBlockIndexAverage(startime, endtime, BlockFileName):
-    groupresult = GroupPercentage(startime, endtime, GetDayKFileNameGroupFromBlockFile('..\\T0002\\blocknew\\' + BlockFileName))
+    groupresult = readDayRecord.GroupPercentage(startime, endtime, GetDayKFileNameGroupFromBlockFile('..\\T0002\\blocknew\\' + BlockFileName))
     counter  = len(groupresult)
     if counter == 0:
         return 'N/A'

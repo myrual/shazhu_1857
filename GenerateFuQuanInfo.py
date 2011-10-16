@@ -3,6 +3,7 @@ import urllib
 import re
 import csv
 import readBlock
+import readDayRecord
 def extractFQRecordFromWeb(linestr):
     result = []
     free = 0

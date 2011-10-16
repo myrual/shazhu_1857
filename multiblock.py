@@ -1,17 +1,18 @@
 from readDayRecord import *
-from readBlock import *
+import readBlock
+import sys
+
+print sys.argv # returns: ['param.py']
 startime = int(raw_input("start time:"))
 endtime =  int(raw_input("end time:"))
-BlockFileNameGroup_WithoutFileType = ['BX', 'DL', 'DLSB', 'DQ', 'DZXX', 'FDC', 'FZFZ', 'GCJZ', 'GSGQ', 'GT', 'HGHX'
-        ,'HJG', 'HTJG', 'JC', 'JSJ', 'JTGJ', 'JTSS', 'JX', 'JYCM', 'LYJD', 'MHG', 'MTSY', 'NJSP', 'QS', 'QTXY', 'SYLS',
-        'TJG', 'TLJJ', 'TX', 'WM', 'XNY', 'YDYB', 'YSJS', 'YSWL', 'YXL']
+BlockFileNameGroup_WithoutFileType = sys.argv[1:]
 BlockFileGroup = []
 for i in BlockFileNameGroup_WithoutFileType:
     BlockFileGroup.append(i+'.blk')
-BlockCompareTable = GetBlockSortTable(startime, endtime, BlockFileGroup)
+BlockCompareTable = readBlock.GetBlockSortTable(startime, endtime, BlockFileGroup)
 sortedTable = GetSortedTable(BlockCompareTable)
 
-BlockGroupName = "AllBlock"
+BlockGroupName = "MultiBlock"
 outfileName_HTML = str(startime) + '_'+ str(endtime) + '_' + BlockGroupName + '.html'
 outfileName_TEXT = str(startime) + '_'+ str(endtime) + '_' + BlockGroupName + '.txt'
 outfile = open(outfileName_HTML, 'w')
