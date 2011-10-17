@@ -70,7 +70,7 @@ def Percentage_byStockID(starttime, endtime, stockid):
 
     if stockid[0] == '6':
         stockid_in_block = '1'+stockid
-    if stockid[0] == '0':
+    if stockid[0] == '0' or stockid[0] == '3':
         stockid_in_block = '0'+stockid
     filename = readBlock.GetStockDayKFileNameFromCodeInBlock(stockid_in_block)
     filepointer = open(filename, 'rb')
