@@ -49,3 +49,62 @@ def OutputText(inputtable, title):
 
     tablepart = InputTabletoTextTable(inputtable, title)
     return tablepart
+
+def OutputTextPadding(inputtable, title):
+    tablelist = InputTable2PaddingList(inputtable, title)
+    stri = PaddingListTable2Text(tablelist)
+    return stri
+def MergeMultiTable(inputtablegroup):
+    """
+    inputtablegroup is an list group, i[0] = inputtable, i[1] = title
+    """
+    colum_numb = len(inputtablegroup[0][0]) + 1
+    result = []
+    for i in range(0, colum_numb):
+
+        result.append('')
+    for i in inputtablegroup:
+        tmp = InputTable2PaddingList(i[0], i[1])
+        for j in range(0, colum_numb):
+            result[j] = result[j] + tmp[j]
+    return result
+ 
+def InputTable2PaddingList(inputtable, title):
+    concatstr = '  '
+    title_maxlen = len(title)
+    name_maxlen = getMaxLenth_BlockName(inputtable)
+    value_maxlen = getMaxLenth_BlockValue(inputtable)
+    name_value_max = name_maxlen + value_maxlen + len(concatstr)
+    if title_maxlen > name_value_max:
+        final_max = title_maxlen
+    else:
+        final_max = name_value_max
+    result = []
+    result.append(Padding(title, final_max))
+    for i in inputtable:
+        name = i[0]
+        value = str(i[1])
+        result.append(Padding(Padding(name, name_maxlen) + concatstr + value, final_max))
+    return result
+
+def PaddingListTable2Text(paddinglist):
+    result = ''
+    for i in paddinglist:
+        result =result + i+'\n'
+    return result
+def Padding(inputstring, maxlen):
+    return inputstring + ' '*(maxlen-len(inputstring))
+
+def getMaxLenth_BlockName(inputtable):
+    max = 0
+    for i in inputtable:
+        if max < len(i[0]):
+            max = len(i[0])
+    return max
+
+def getMaxLenth_BlockValue(inputtable):
+    max = 0
+    for i in inputtable:
+        if max < len(str(i[0])):
+            max = len(str(i[0]))
+    return max

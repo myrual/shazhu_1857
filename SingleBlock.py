@@ -14,6 +14,6 @@ outfile = open(outfileName_HTML, 'w')
 outfileText = open(outfileName_TEXT, 'w')
 
 outfile.write(OutputHTML(sortedgroup, str(startime) + "->" + str(endtime)))
-outfileText.write(OutputText(sortedgroup, str(startime) + "->" + str(endtime)))
+outfileText.write(OutputTextPadding(sortedgroup, str(startime) + "->" + str(endtime)))
 outfile.close()
 outfileText.close()

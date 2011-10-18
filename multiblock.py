@@ -34,6 +34,7 @@ if total <> 2:
     while i < (total -1):
         period_group.append([milestonegroup_sorted[i], milestonegroup_sorted[i+1]])
         i = i + 1
+merged_result = []
 for i in period_group:
     startime = int(i[0])
     endtime =  int(i[1])
@@ -47,10 +48,10 @@ for i in period_group:
     BlockGroupName = "MultiBlock"
     outfileName_HTML = str(startime) + '_'+ str(endtime) + '_' + BlockGroupName + '.html'
     outfileName_TEXT = str(startime) + '_'+ str(endtime) + '_' + BlockGroupName + '.txt'
-    outfile = open(outfileName_HTML, 'w')
+    merged_result.append([sortedTable, str(startime) + '_' + str(endtime)])
     outfileText = open(outfileName_TEXT, 'w')
-
-    outfile.write(OutputHTML(sortedTable, str(startime) + "->" + str(endtime)))
     outfileText.write(OutputText(sortedTable, str(startime) + "->" + str(endtime)))
-    outfile.close()
     outfileText.close()
+outfileText = open('allinone.txt', 'w')
+outfileText.write(PaddingListTable2Text(MergeMultiTable(merged_result)))
+outfileText.close()
