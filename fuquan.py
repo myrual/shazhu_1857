@@ -30,6 +30,8 @@ def SingleFuqian_Forward(FQinfo, filepointer):
     """FQinfo is : [time(trade time), free(how many), gift(How many), bonus(how much), cheaper_price(how much), cheaper_count(how many)]
     """
     earlierprice = readDayRecord.GetYesterDayEndPrice(filepointer, FQinfo[0])
+    if earlierprice == []:
+        return 1
     bonus = FQinfo[3]
     free = FQinfo[1]
     gift = FQinfo[2]
@@ -52,11 +54,14 @@ def periodFuquan_factor_Forward(FQPeriodTable, filepointer):
 def GetFuquanedPrice(starttime, endtime, Kdayfilepointer, WholeFuquanInfo):
     matchFuquanTable = GetMatchedFuquanFromWholeFuquan(starttime, endtime, WholeFuquanInfo)
     index = periodFuquan_factor_Forward(matchFuquanTable, Kdayfilepointer)
-    return readDayRecord.getEndPrice(readDayRecord.findMatchedTimeRecord(Kdayfilepointer, starttime))* index
+    record = readDayRecord.findMatchedTimeRecord(Kdayfilepointer, starttime)
+    if record <> []:
+        return readDayRecord.getEndPrice(record)* index
+    else:
+        return []
 def getFuquanedPrice_fromFile(starttime, endtime, Kdayfilepointer, fuquanfilepointer):
     FullFQInfo = GetFuquanInfoFromFile(fuquanfilepointer)
     return GetFuquanedPrice(starttime, endtime, Kdayfilepointer, FullFQInfo)
-#print periodFuquan_factor_Forward(STDTFQinfo)
 def GetFuquanInfoFromFile(filenpointer):
     FQReader = csv.reader(filenpointer)
 
@@ -64,16 +69,3 @@ def GetFuquanInfoFromFile(filenpointer):
     for row in FQReader:
         result.append(map(float, row))
     return result
-"""
-print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, STDTFQinfo)
-print GetMatchedFuquanFromWholeFuquan(20050930, 20110430, [])
-print GetMatchedFuquanFromWholeFuquan(20050930, 20110930, [[20110617, 0.3, 0, 0.6, 0, 0]])
-KdayFileName = 'sh\\lday\\sh600497.day'
-filepointer = open(KdayFileName, 'rb')
-print periodFuquan_factor_Forward(GetMatchedFuquanFromWholeFuquan(20090930, 20110930, STDTFQinfo), filepointer)
-fqfilename = raw_input("input fuquan file name:")
-FullFQInfo = GetFuquanInfoFromFile(open(fqfilename + '.csv'))
-print "Full fuquan info is :"
-print FullFQInfo
-print GetFuquanedPrice(20110524, 20110930, filepointer, FullFQInfo)
-"""

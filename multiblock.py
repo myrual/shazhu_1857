@@ -35,10 +35,6 @@ if total <> 2:
         period_group.append([milestonegroup_sorted[i], milestonegroup_sorted[i+1]])
         i = i + 1
 for i in period_group:
-    print i[0] + "->" + i[1]
-    
-raw_input("pause")
-for i in period_group:
     startime = int(i[0])
     endtime =  int(i[1])
     BlockCompareTable = readBlock.GetBlockSortTable(startime, endtime, BlockFileGroup)

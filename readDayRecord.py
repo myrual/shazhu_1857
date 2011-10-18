@@ -50,7 +50,7 @@ def findYesterDayRecord(filepointer, inputtime):
 def GetYesterDayEndPrice(filepointer, inputtime):
     record = findYesterDayRecord(filepointer, inputtime)
     if record == []:
-        return 0
+        return []
     else:
         return getEndPrice(record)
 def findMatchedTimeRecord(filepointer, inputtime):
@@ -90,6 +90,9 @@ def Percentage(starttime, endtime, filepointer, fuquanfilepointer = []):
             start_price = getEndPrice(start_record)
             if(fuquanfilepointer <> []):
                 start_price = getFuquanedPrice_fromFile(starttime, endtime, filepointer, fuquanfilepointer)
+                if start_price == []:
+                    #if not found that time price
+                    return []
             absvalue = abs(start_price - end_price)
             finalrate = absvalue/start_price
             finalrate = (finalrate * 100)//1
@@ -111,7 +114,6 @@ def GroupPercentage(starttime, endtime, filegroup):
             if os.path.isfile(fuquanfilename):
                 fuquanpointer = open(fuquanfilename, 'r')
             else:
-                #print "Creating Fuquan file:" + fuquanfilename
                 #CreateFquanByStockID(stockid)
                 fuquanpointer = []
             per = Percentage(starttime, endtime, KDayfilepointer, fuquanpointer)
