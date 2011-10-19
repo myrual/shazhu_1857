@@ -69,6 +69,7 @@ def findMatched_OrLastTimeRecord(filepointer, inputtime):
     resetfilePointertoHead(filepointer)
     oneday = GetOneDayContent(filepointer)
     i = 1
+    tmp = []
     while len(oneday) <> 0:
         if getTime(oneday) < inputtime:
             tmp = oneday
@@ -77,7 +78,8 @@ def findMatched_OrLastTimeRecord(filepointer, inputtime):
         oneday = GetOneDayContent(filepointer)
         i = i + 1
     print "no found match record" + "with " + str(inputtime) + "time"
-    print "just found last trading time record with time: " + str(getTime(tmp))
+    if tmp <> []:
+        print "just found last trading time record with time: " + str(getTime(tmp))
     return tmp
 def Percentage_byStockID(starttime, endtime, stockid):
     """stock id is an string like '600834'"""
