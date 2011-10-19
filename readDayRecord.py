@@ -65,6 +65,20 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
+def findMatched_OrLastTimeRecord(filepointer, inputtime):
+    resetfilePointertoHead(filepointer)
+    oneday = GetOneDayContent(filepointer)
+    i = 1
+    while len(oneday) <> 0:
+        if getTime(oneday) < inputtime:
+            tmp = oneday
+        if getTime(oneday) == inputtime:
+            return oneday
+        oneday = GetOneDayContent(filepointer)
+        i = i + 1
+    print "no found match record" + "with " + str(inputtime) + "time"
+    print "just found last trading time record with time: " + str(getTime(tmp))
+    return tmp
 def Percentage_byStockID(starttime, endtime, stockid):
     """stock id is an string like '600834'"""
 
@@ -83,7 +97,7 @@ def Percentage_byStockID(starttime, endtime, stockid):
     return Percentage(starttime, endtime, filepointer, fuquanfilepointer)
 def Percentage(starttime, endtime, filepointer, fuquanfilepointer = []):
     start_record = findMatchedTimeRecord(filepointer,starttime)
-    end_record   = findMatchedTimeRecord(filepointer, endtime)
+    end_record   = findMatched_OrLastTimeRecord(filepointer, endtime)
     if start_record <> []:
         if end_record <> []:
             end_price = getEndPrice(end_record)

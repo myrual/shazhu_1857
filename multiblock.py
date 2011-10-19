@@ -52,6 +52,6 @@ for i in period_group:
     outfileText = open(outfileName_TEXT, 'w')
     outfileText.write(OutputText(sortedTable, str(startime) + "->" + str(endtime)))
     outfileText.close()
-outfileText = open('allinone.txt', 'w')
+outfileText = open('allinone' + today_instring + '.txt', 'w')
 outfileText.write(PaddingListTable2Text(MergeMultiTable(merged_result)))
 outfileText.close()

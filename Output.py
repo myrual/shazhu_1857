@@ -69,6 +69,14 @@ def MergeMultiTable(inputtablegroup):
             result[j] = result[j] + tmp[j]
     return result
  
+def FoundChineseName(inputid):
+    id_map = open('id_matching_chinese.txt', 'r')
+    whole = id_map.readlines()
+    count = len(whole)
+    for i in range(0, count):
+        if whole[i] == inputid+'\n':
+            return whole[i+1][0:-1]
+    return inputid
 def InputTable2PaddingList(inputtable, title):
     concatstr = '  '
     title_maxlen = len(title)
@@ -82,7 +90,7 @@ def InputTable2PaddingList(inputtable, title):
     result = []
     result.append(Padding(title, final_max))
     for i in inputtable:
-        name = i[0]
+        name = FoundChineseName(i[0])
         value = str(i[1])
         result.append(Padding(Padding(name, name_maxlen) + concatstr + value, final_max))
     return result
@@ -98,8 +106,8 @@ def Padding(inputstring, maxlen):
 def getMaxLenth_BlockName(inputtable):
     max = 0
     for i in inputtable:
-        if max < len(i[0]):
-            max = len(i[0])
+        if max < len(FoundChineseName(i[0])):
+            max = len(FoundChineseName(i[0]))
     return max
 
 def getMaxLenth_BlockValue(inputtable):
