@@ -66,22 +66,18 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
-def findMatched_OrLastTimeRecordGroup(filepointer, inputtime, day_record_width):
+def findMatched_OrLastTimeRecordGroup(filepointer, starttime, endtime):
     tmp = []
     resetfilePointertoHead(filepointer)
     oneday = GetOneDayContent(filepointer)
     while len(oneday) <> 0:
-        if getTime(oneday) < inputtime:
+        if getTime(oneday) >= starttime:
             tmp.append(getTime(oneday))
-            if len(tmp) > day_record_width:
-                tmp.pop(0)
-        if getTime(oneday) == inputtime:
+        if getTime(oneday) == endtime:
             tmp.append(getTime(oneday))
-            if len(tmp) > day_record_width:
-                tmp.pop(0)
             break
-        if getTime(oneday) > inputtime:
-            print "not found: " + str(inputtime) + "in current file"
+        if getTime(oneday) > endtime:
+            print "not found: " + str(endtime) + "in current file"
             break;
         oneday = GetOneDayContent(filepointer)
     return tmp
@@ -112,9 +108,9 @@ def GetFilePointerFromStockID(stockid):
     fname = GetFileNameFromStockID(stockid)
     filepointer = open(fname, 'rb')
     return filepointer
-def GetGroupEndPrice(endtime, how_many_days, stockid):
+def GetGroupEndPrice(starttime, endtime, stockid):
     fpointer = GetFilePointerFromStockID(stockid)
-    timelist = findMatched_OrLastTimeRecordGroup(fpointer, endtime, how_many_days)
+    timelist = findMatched_OrLastTimeRecordGroup(fpointer, starttime, endtime)
     tmp = []
     for i in timelist:
         tmp.append(GetFuquanPrice_byStockID(i, endtime, stockid))
