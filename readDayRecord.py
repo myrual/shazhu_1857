@@ -7,8 +7,9 @@ def resetfilePointertoHead(FilePointer):
     FilePointer.seek(0)
     return
 
+TDX_One_Day_Record_Len = 32
 def GetOneDayContent(FilePointer):
-    return FilePointer.read(32)
+    return FilePointer.read(TDX_One_Day_Record_Len)
 
 def Convert4ByteString2Int(timestring):
     result = ord(timestring[0]) + ord(timestring[1])*0x100 + ord(timestring[2])*0x10000 + ord(timestring[3])*0x1000000
@@ -65,6 +66,25 @@ def findMatchedTimeRecord(filepointer, inputtime):
     print "no found match record" + "with " + str(i) + "attem"
     return []
 
+def findMatched_OrLastTimeRecordGroup(filepointer, inputtime, day_record_width):
+    tmp = []
+    resetfilePointertoHead(filepointer)
+    oneday = GetOneDayContent(filepointer)
+    while len(oneday) <> 0:
+        if getTime(oneday) < inputtime:
+            tmp.append(getTime(oneday))
+            if len(tmp) > day_record_width:
+                tmp.pop(0)
+        if getTime(oneday) == inputtime:
+            tmp.append(getTime(oneday))
+            if len(tmp) > day_record_width:
+                tmp.pop(0)
+            break
+        if getTime(oneday) > inputtime:
+            print "not found: " + str(inputtime) + "in current file"
+            break;
+        oneday = GetOneDayContent(filepointer)
+    return tmp
 def findMatched_OrLastTimeRecord(filepointer, inputtime):
     resetfilePointertoHead(filepointer)
     oneday = GetOneDayContent(filepointer)
@@ -81,6 +101,40 @@ def findMatched_OrLastTimeRecord(filepointer, inputtime):
     if tmp <> []:
         print "just found last trading time record with time: " + str(getTime(tmp))
     return tmp
+def GetFileNameFromStockID(stockid):
+    if stockid[0] == '6':
+        stockid_in_block = '1'+stockid
+    if stockid[0] == '0' or stockid[0] == '3':
+        stockid_in_block = '0'+stockid
+    filename = readBlock.GetStockDayKFileNameFromCodeInBlock(stockid_in_block)
+    return filename
+def GetFilePointerFromStockID(stockid):
+    fname = GetFileNameFromStockID(stockid)
+    filepointer = open(fname, 'rb')
+    return filepointer
+def GetGroupEndPrice(endtime, how_many_days, stockid):
+    fpointer = GetFilePointerFromStockID(stockid)
+    timelist = findMatched_OrLastTimeRecordGroup(fpointer, endtime, how_many_days)
+    tmp = []
+    for i in timelist:
+        tmp.append(GetFuquanPrice_byStockID(i, endtime, stockid))
+    return tmp
+def GetFuquanPrice_byStockID(starttime, endtime, stockid):
+    """stock id is an string like '600834'"""
+
+    if stockid[0] == '6':
+        stockid_in_block = '1'+stockid
+    if stockid[0] == '0' or stockid[0] == '3':
+        stockid_in_block = '0'+stockid
+    filename = readBlock.GetStockDayKFileNameFromCodeInBlock(stockid_in_block)
+    filepointer = open(filename, 'rb')
+    fqfilename = 'fq\\' + stockid+'.csv'
+    if os.path.isfile(fqfilename):
+        fuquanfilepointer = open(fqfilename,'r')
+    else:
+        print "not found fuquan info: " + fqfilename
+        fuquanfilepointer = []
+    return getFuquanedPrice_fromFile(starttime, endtime, filepointer, fuquanfilepointer)
 def Percentage_byStockID(starttime, endtime, stockid):
     """stock id is an string like '600834'"""
 

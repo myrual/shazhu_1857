@@ -1,4 +1,5 @@
 from __future__ import division
+import readDayRecord
 EndPriceList = [12,13,14,15,10,10,7,11,13,9,8,10]
 x1 = 2
 x2 = 4
@@ -44,13 +45,6 @@ def FindPeakValueIndex(Ylist, HighOrLow):
             peak = Ylist[j]
     return i
 [k, d] = GetKDfrom2Point(0, 4, EndPriceList)
-print "K is: "
-print k
-print "d is: "
-print d
-print "15 should be: " + str(GetYValue(k, d, 15))
-print "higest value is :" + str(FindPeakValue(EndPriceList, "High"))
-print "lowest value is :" + str(FindPeakValue(EndPriceList, "Low"))
 
 def FoundKD_DownLine_seperate(Ylist):
     TopIndex = FindPeakValueIndex(Ylist, "High")
@@ -75,7 +69,6 @@ def FoundKD_Line(Ylist, Peak, DownUp):
         [k, d] = GetKDfrom2Point(0, i, toDoYlist)
         result = IsKDCoverAll(toDoYlist[1:], k, d, DownUp)
         if result == "true":
-            print "found k: " + str(k) +  "and d: " + str(d)
             return [k, d, TopIndex]
     return [0, 0, 0]
 def FoundKD_UpLine(Ylist):
@@ -98,15 +91,21 @@ def GetUpPressureValue(Ylist, tday):
         print Ylist
         return []
     return k*(len(Ylist[DownStartIndex:]) + tday) + d
-[Up_K, Up_D, Index] = FoundKD_UpLine(EndPriceList)
-print [Up_K, Up_D]
-[Down_K, Down_D, Index] = FoundKD_DownLine(EndPriceList)
-print [Down_K, Down_D]
-print "pressure value for plus 2"
-print GetDownPressureValue(EndPriceList, 2)
+def GetUpPressureValue_ByStockID(stockid, endtime, backdays, nextdayoffset):
+    end_price_group =  readDayRecord.GetGroupEndPrice(endtime, backdays, stockid)
+    nexday_pressvalue = GetUpPressureValue(end_price_group, nextdayoffset)
+    return nexday_pressvalue
 
-print "float value for plus 2"
-print GetUpPressureValue(EndPriceList, 2)
+def GetDownPressureValue_ByStockID(stockid, endtime, backdays, nextdayoffset):
+    end_price_group =  readDayRecord.GetGroupEndPrice(endtime, backdays, stockid)
+    nexday_pressvalue = GetDownPressureValue(end_price_group, nextdayoffset)
+    return nexday_pressvalue
+stockid = raw_input("input stockid:")
+endday = int(raw_input("input end day:"))
+backday = int(raw_input("input how many days you want to look back"))
+nextday = int(raw_input("input how many days you want to know press value from end day:"))
+print "downline pressure:" + str(GetDownPressureValue_ByStockID(stockid, endday, backday, nextday))
+print "upline pressure:" + str(GetUpPressureValue_ByStockID(stockid, endday, backday, nextday))
 """
 
 BottonIndex = FindPeakValueIndex(EndPriceList, "Low")
