@@ -93,13 +93,20 @@ def GetUpPressureValue(Ylist, tday):
     return k*(len(Ylist[DownStartIndex:]) + tday) + d
 def GetUpPressureValue_ByStockID(stockid, starttime, endtime, nextdayoffset):
     end_price_group =  readDayRecord.GetGroupEndPrice(starttime, endtime, stockid)
-    nexday_pressvalue = GetUpPressureValue(end_price_group, nextdayoffset)
-    return nexday_pressvalue
+    nextday_list = []
+    for i in range(1, nextdayoffset):
+        press_value = GetUpPressureValue(end_price_group, i)
+        nextday_list.append(round(press_value, 2))
+
+    return nextday_list
 
 def GetDownPressureValue_ByStockID(stockid, starttime, endtime, nextdayoffset):
     end_price_group =  readDayRecord.GetGroupEndPrice(starttime, endtime, stockid)
-    nexday_pressvalue = GetDownPressureValue(end_price_group, nextdayoffset)
-    return nexday_pressvalue
+    nextday_list = []
+    for i in range(1, nextdayoffset):
+        press_value = GetDownPressureValue(end_price_group, i)
+        nextday_list.append(round(press_value, 2))
+    return nextday_list
 stockid = raw_input("input stockid:")
 
 startday = int(raw_input("input start time"))
