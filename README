@@ -1,20 +1,22 @@
-= what it is =
+=what it is=
 This code is used to calulate some static of stock market.
 the logic behind it is here
+http://bbs.niugoo.com/viewthread.php?tid=112827&page=1&authorid=45927 
+http://bbs.niugoo.com/viewthread.php?tid=172725&page=1&authorid=45927 
 
-== install ==
+==install==
 1. Tongdaxin is installed.
 2. put all python script under vipdoc folder which is under tongdaxin install directory
 3. create fq folder, and put all fqinfo in there
 4. found blocknew in tongdaxin install folder, you can copy the folder in this repository
 5. launch script to do something
-== How to ==
+==How to==
 1. calculate press line 
     Just run press_line.py
     input stock id like 399300 and time and future press value
 2. Generate Fuquan info from sina web page
 3. calulate amplitude of an stock or an block of stock in an region with Fuqian info
-== TODO ==
+==TODO==
 this is my first program to calculate stock static, so the logic is not clear.
 And this kind of language is not very powerful to this kind of job.
 After use the pragram for some days, I found it is hard to add more function, reason maybe python itself or my personal logic
